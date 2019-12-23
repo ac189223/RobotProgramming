@@ -17,8 +17,8 @@ public class View {
 	private JPanel panel04;
 
 	private JLabel lblLogo01;
+	private JLabel lblTitle;
 	private JLabel lblLogo02;
-	private JLabel lblLogo03;
 	private JLabel lblSetSize;
 	private JLabel lblSetWidth;
 	private JLabel lblSetHeight;
@@ -32,6 +32,7 @@ public class View {
 	private JLabel lblRoomWithWalls;
 	private JLabel lblRoomGoesRound;
 	private JLabel lblRoomOfMagic;
+	private JLabel lblLogo03;
 	private JLabel lblResultDesc01;
 	private JLabel lblResultDesc02;
 	private JLabel lblResultDesc03;
@@ -44,6 +45,7 @@ public class View {
 	private JLabel lblResultNumber03;
 	private JLabel lblResultStep03;
 	private JLabel lblResultResult03;
+	private JTextArea txtarDescr01;
 	private JTextArea txtarResultNumber01;
 	private JTextArea txtarResultStep01;
 	private JTextArea txtarResultResult01;
@@ -82,8 +84,8 @@ public class View {
 	public JPanel getPanel03() { return panel03; }
 	public JPanel getPanel04() { return panel04; }
 	public JLabel getLblLogo01() { return lblLogo01; }
+	public JLabel getLblTitle() { return lblTitle; }
 	public JLabel getLblLogo02() { return lblLogo02; }
-	public JLabel getLblLogo03() { return lblLogo03; }
 	public JLabel getLblSetSize() { return lblSetSize; }
 	public JLabel getLblSetWidth() { return lblSetWidth; }
 	public JLabel getLblSetHeight() { return lblSetHeight; }
@@ -97,6 +99,7 @@ public class View {
 	public JLabel getLblRoomWithWalls() { return lblRoomWithWalls; }
 	public JLabel getLblRoomGoesRound() { return lblRoomGoesRound; }
 	public JLabel getLblRoomOfMagic() { return lblRoomOfMagic; }
+	public JLabel getLblLogo03() { return lblLogo03; }
 	public JLabel getLblResultDesc01() { return lblResultDesc01; }
 	public JLabel getLblResultDesc02() { return lblResultDesc02; }
 	public JLabel getLblResultDesc03() { return lblResultDesc03; }
@@ -109,6 +112,7 @@ public class View {
 	public JLabel getLblResultNumber03() { return lblResultNumber03; }
 	public JLabel getLblResultStep03() { return lblResultStep03; }
 	public JLabel getLblResultResult03() { return lblResultResult03; }
+	public JTextArea getTxtarDescr01() { return txtarDescr01; }
 	public JTextArea getTxtarResultNumber01() { return txtarResultNumber01; }
 	public JTextArea getTxtarResultStep01() { return txtarResultStep01; }
 	public JTextArea getTxtarResultResult01() { return txtarResultResult01; }
@@ -146,8 +150,8 @@ public class View {
 	public void setPanel03(JPanel panel03) { this.panel03 = panel03; }
 	public void setPanel04(JPanel panel04) { this.panel04 = panel04; }
 	public void setLblLogo01(JLabel lblLogo01) { this.lblLogo01 = lblLogo01; }
+	public void setLblTitle(JLabel lblTitle) { this.lblTitle = lblTitle; }
 	public void setLblLogo02(JLabel lblLogo02) { this.lblLogo02 = lblLogo02; }
-	public void setLblLogo03(JLabel lblLogo03) { this.lblLogo03 = lblLogo03; }
 	public void setLblSetSize(JLabel lblSetSize) { this.lblSetSize = lblSetSize; }
 	public void setLblSetWidth(JLabel lblSetWidth) { this.lblSetWidth = lblSetWidth; }
 	public void setLblSetHeight(JLabel lblSetHeight) { this.lblSetHeight = lblSetHeight; }
@@ -161,6 +165,7 @@ public class View {
 	public void setLblRoomWithWalls(JLabel lblRoomWithWalls) { this.lblRoomWithWalls = lblRoomWithWalls; }
 	public void setLblRoomGoesRound(JLabel lblRoomGoesRound) { this.lblRoomGoesRound = lblRoomGoesRound; }
 	public void setLblRoomOfMagic(JLabel lblRoomOfMagic) { this.lblRoomOfMagic = lblRoomOfMagic; }
+	public void setLblLogo03(JLabel lblLogo03) { this.lblLogo03 = lblLogo03; }
 	public void setLblResultDesc01(JLabel lblResultDesc01) { this.lblResultDesc01 = lblResultDesc01; }
 	public void setLblResultDesc02(JLabel lblResultDesc02) { this.lblResultDesc02 = lblResultDesc02; }
 	public void setLblResultDesc03(JLabel lblResultDesc03) { this.lblResultDesc03 = lblResultDesc03; }
@@ -173,6 +178,7 @@ public class View {
 	public void setLblResultNumber03(JLabel lblResultNumber03) { this.lblResultNumber03 = lblResultNumber03; }
 	public void setLblResultStep03(JLabel lblResultStep03) { this.lblResultStep03 = lblResultStep03; }
 	public void setLblResultResult03(JLabel lblResultResult03) { this.lblResultResult03 = lblResultResult03; }
+	public void setTxtarDescr01(JTextArea txtarDescr01) { this.txtarDescr01 = txtarDescr01; }
 	public void setTxtarResultNumber01(JTextArea txtarResultNumber01) { this.txtarResultNumber01 = txtarResultNumber01; }
 	public void setTxtarResultStep01(JTextArea txtarResultStep01) { this.txtarResultStep01 = txtarResultStep01; }
 	public void setTxtarResultResult01(JTextArea txtarResultResult01) { this.txtarResultResult01 = txtarResultResult01; }
@@ -275,6 +281,19 @@ public class View {
 		lblLogo01.setBounds(420, 20, 120, 120);
 		panel01.add(lblLogo01);
 
+		lblTitle = new JLabel("Robot programming");
+		lblTitle.setEnabled(false);
+		lblTitle.setHorizontalAlignment(SwingConstants.LEFT);
+		lblTitle.setFont(new Font("Tw Cen MT", Font.PLAIN, 25));
+		lblTitle.setBounds(20, 20, 500, 27);
+		panel01.add(lblTitle);
+
+		txtarDescr01 = new JTextArea("");
+		txtarDescr01.setEnabled(false);
+		txtarDescr01.setBackground(new Color(0,0,0));
+		txtarDescr01.setFont(new Font("Tw Cen MT", Font.PLAIN, 16));
+		txtarDescr01.setBounds(20, 100, 450, 500);
+		panel01.add(txtarDescr01);
 
 // panel02 ==================    Set & Run    =========================== panel02
 
@@ -574,7 +593,7 @@ public class View {
 		lblResultDesc02.setBounds(20, 60, 350, 20);
 		panel03.add(lblResultDesc02);
 
-		lblResultDesc03 = new JLabel("After taking below steps Jim ended in (21,10), facing South");
+		lblResultDesc03 = new JLabel("");
 		lblResultDesc03.setEnabled(false);
 		lblResultDesc03.setHorizontalAlignment(SwingConstants.LEFT);
 		lblResultDesc03.setFont(new Font("Tw Cen MT", Font.PLAIN, 15));
@@ -589,7 +608,7 @@ public class View {
 		lblResultNumber01.setBounds(20, 130, 40, 20);
 		panel03.add(lblResultNumber01);
 
-		txtarResultNumber01 = new JTextArea("1.\n2.\n3.\n4.\n5.\n6.\n7.\n8.\n9.\n10.\n11.\n12.\n3.\n4.\n5.\n6.\n7.\n8.\n9.\n10.\n11.\n12.\n3.\n4.\n5.\n6.\n7.\n8.\n9.\n10.\n11.\n12.");
+		txtarResultNumber01 = new JTextArea("");
 		txtarResultNumber01.setEnabled(false);
 		txtarResultNumber01.setBackground(new Color(0,0,0));
 		txtarResultNumber01.setFont(new Font("Tw Cen MT", Font.PLAIN, 13));
@@ -603,7 +622,7 @@ public class View {
 		lblResultStep01.setBounds(60, 130, 60, 20);
 		panel03.add(lblResultStep01);
 
-		txtarResultStep01 = new JTextArea("F      -->");
+		txtarResultStep01 = new JTextArea("");
 		txtarResultStep01.setEnabled(false);
 		txtarResultStep01.setBackground(new Color(0,0,0));
 		txtarResultStep01.setFont(new Font("Tw Cen MT", Font.PLAIN, 13));
@@ -617,7 +636,7 @@ public class View {
 		lblResultResult01.setBounds(120, 130, 70, 20);
 		panel03.add(lblResultResult01);
 
-		txtarResultResult01 = new JTextArea("(34,23,N)");
+		txtarResultResult01 = new JTextArea("");
 		txtarResultResult01.setEnabled(false);
 		txtarResultResult01.setBackground(new Color(0,0,0));
 		txtarResultResult01.setFont(new Font("Tw Cen MT", Font.PLAIN, 13));
@@ -724,8 +743,6 @@ public class View {
 		txtarResultResult03.setBounds(480, 150, 70, 455);
 		panel03.add(txtarResultResult03);
 
-
-
-		//controller.initializeData();
+		controller.createDescriptionInView();
 	}
 }

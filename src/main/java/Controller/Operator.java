@@ -20,6 +20,8 @@ public class Operator {
      * @return              remainder after division of number A by number B
      */
     public int modulo(int number, int moduloBy) {
+        if (moduloBy == 1)
+            return 0;
         int modulo = number % moduloBy;
         if (number < 0)
             modulo += moduloBy;

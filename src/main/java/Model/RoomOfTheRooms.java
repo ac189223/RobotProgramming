@@ -25,11 +25,6 @@ public class RoomOfTheRooms {
     }
 
     /**
-     * Constructor of the empty Room
-     */
-    public RoomOfTheRooms() { }
-
-    /**
      * Getters for this class
      */
     public int getMinX() { return minX; }

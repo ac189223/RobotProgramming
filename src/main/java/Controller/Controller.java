@@ -59,6 +59,34 @@ public class Controller {
     // ==============================================  Methods  ==============================================
 
     /**
+     * Writing description in the view
+     */
+    public void createDescriptionInView() {
+        getView().getTxtarDescr01().setText("Welcome in the controller to the Robot !\n" +
+                "   It's a simple robot that can walk around in the Room\n\n" +
+                "   Set & Run \n" +
+                "       1. Setup parameters to initialize the Room and the Robot:\n" +
+                "           - size of the Room (up to 50)\n" +
+                "           - starting point and the direction of the Robot\n" +
+                "           - type of the Room:\n" +
+                "               - room without the walls that the Robot may fall out from \n" +
+                "                       (the Robot is moved back to the starting point after he crashed,\n" +
+                "                       but remember that the Robot dies after the third crash)\n" +
+                "               - classical room that the Robot will just bang the walls with his head\n" +
+                "               - torus room that goes round or Kleins bottle room of magic\n" +
+                "                       (search online how exactly do they work)\n" +
+                "       2. Use buttons to set the program (up to 90 characters) for the Robot\n" +
+                "       3. Execute program by pressing Run button\n\n" +
+                "   Results \n" +
+                "       Header contains the description of settings and a final location of the Robot\n" +
+                "       Below is the table with details about all the steps taken during program execution\n" +
+                "       If room to die was chosen, then crashes of the Robot are also visible\n" +
+                "       Death of the Robot is noticed in the header and the program is stopped in that case\n\n" +
+                "   Have fun and enjoy programming the Robot !\n" +
+                "   Settings as well as the program may be changed to rerun the Robot");
+    }
+
+    /**
      * Checking if the Robot is touching the border with his face
      *
      * @return      true if yes, false otherwise
@@ -80,13 +108,48 @@ public class Controller {
     public void executeCommandLine(String commandLine) {
         int counter = 1;
         for (int i = 0; i < commandLine.length(); i++) {
-            executeOneCommand(commandLine.charAt(i));       // execute instructions one by one
-            if (counter <= 30) {
-                getView().getTxtarResultNumber01().setText(getView().getTxtarResultNumber01().getText() + "\n" + counter + ".");
+            if (checkIfAlive()) {
+                executeOneCommand(commandLine.charAt(i));               // execute instructions one by one
+                if (counter <= 30) {
+                    getView().getTxtarResultNumber01().setText(
+                            getView().getTxtarResultNumber01().getText() + counter + "." + "\n");
+                    getView().getTxtarResultStep01().setText(
+                            getView().getTxtarResultStep01().getText() + commandLine.charAt(i) + "      -->" + "\n");
+                    if (getRobotJim().ifJustCrashed()) {
+                        getView().getTxtarResultResult01().setText(
+                                getView().getTxtarResultResult01().getText() + "CRASHED" + "\n");
+                        getRobotJim().setJustCrashed(false);
+                    } else
+                        getView().getTxtarResultResult01().setText(
+                                getView().getTxtarResultResult01().getText() + reportPosition() + "\n");
+                } else if (counter <= 60) {
+                    getView().getTxtarResultNumber02().setText(
+                            getView().getTxtarResultNumber02().getText() + counter + "." + "\n");
+                    getView().getTxtarResultStep02().setText(
+                            getView().getTxtarResultStep02().getText() + commandLine.charAt(i) + "      -->" + "\n");
+                    if (getRobotJim().ifJustCrashed()) {
+                        getView().getTxtarResultResult02().setText(
+                                getView().getTxtarResultResult02().getText() + "CRASHED" + "\n");
+                        getRobotJim().setJustCrashed(false);
+                    } else
+                        getView().getTxtarResultResult02().setText(
+                                getView().getTxtarResultResult02().getText() + reportPosition() + "\n");
+                } else {
+                    getView().getTxtarResultNumber03().setText(
+                            getView().getTxtarResultNumber03().getText() + counter + "." + "\n");
+                    getView().getTxtarResultStep03().setText(
+                            getView().getTxtarResultStep03().getText() + commandLine.charAt(i) + "      -->" + "\n");
+                    if (getRobotJim().ifJustCrashed()) {
+                        getView().getTxtarResultResult03().setText(
+                                getView().getTxtarResultResult03().getText() + "CRASHED" + "\n");
+                        getRobotJim().setJustCrashed(false);
+                    } else
+                        getView().getTxtarResultResult03().setText(
+                                getView().getTxtarResultResult03().getText() + reportPosition() + "\n");
+                }
+                counter++;
             }
-            counter++;
         }
-        reportPosition();
     }
 
     /**
@@ -96,14 +159,13 @@ public class Controller {
      */
     public void executeOneCommand(char command) {
         if (command == 'F')
-            changePosition();                               // move
+            changePosition();                                       // move
         else if (command == 'R')
-            rotate(1);                              // turn right
+            rotate(1);                                      // turn right
         else if (command == 'L')
-            rotate(-1);                             // turn left
-        else {
+            rotate(-1);                                     // turn left
+        else
             throw new IllegalArgumentException("Error in the provided program - incorrect character: " + command);
-        }
     }
 
     /**
@@ -111,9 +173,9 @@ public class Controller {
      */
     public void changePosition() {
         if (touchTheBorder())
-            crossTheBorder();                               // out of the Room consequence
+            crossTheBorder();                                       // out of the Room consequence
         else
-            switch (getRobotJim().getDirection()) {                       // making one step inside the Room in a proper direction
+            switch (getRobotJim().getDirection()) {                 // making one step inside the Room in a proper direction
                 case 0:
                     getRobotJim().getPosition().setLocation(getRobotJim().getX(), getRobotJim().getY() - 1);
                     break;
@@ -134,67 +196,74 @@ public class Controller {
      */
     public void crossTheBorder() {
         switch (getRoom().getMode()) {
-            case 0:                         // The Robot is falling out of the RoomToDie, decreasing his lives counter
+            case 0:                         // the Robot is falling out of the RoomToDie, decreasing his lives counter
                 getRobotJim().setAmountOfLives(getRobotJim().getAmountOfLives() - 1);
-                if (!checkIfAlive())
-                    System.exit(0);
+                if (!checkIfAlive()) {      // inform if the Robot dies totally
+                    getView().getLblResultDesc03().setText("After below steps Jim crashed for the third time and died");
+                    getRobotJim().setJustCrashed(true);
+                } else {                    // locate the Robot back in the starting point if he manage to survive
+                    getRobotJim().setPosition(
+                            new Point(getView().getCmbSetPositionX().getSelectedIndex(),
+                                    getView().getCmbSetPositionY().getSelectedIndex()));
+                    getRobotJim().setDirection(getView().getCmbSetDirection().getSelectedIndex());
+                    getRobotJim().setJustCrashed(true);
+                }
                 break;
-            case 1:                         // The Robot is hitting the wall and staying in the place in RoomWithWalls
+            case 1:                         // the Robot is hitting the wall and staying in the place in RoomWithWalls
                 break;
-            case 2:                         // The Robot goes round in the Room in a shape of torus
+            case 2:                         // the Robot goes round in the Room in a shape of torus
                                             // moving cross the wall means that he appears from the other side
                 switch (getRobotJim().getDirection()) {
                     case 0:
                         getRobotJim().getPosition()
                                 .setLocation(getRobotJim().getX(),
-                                        getOperator().modulo(getRobotJim().getY() - 1, getRoom().getMaxY()));
+                                        getOperator().modulo(getRobotJim().getY() - 1, (getRoom().getMaxY() + 1)));
                         break;
                     case 1:
                         getRobotJim().getPosition()
-                                .setLocation(getOperator().modulo(getRobotJim().getX() + 1, getRoom().getMaxX()),
+                                .setLocation(getOperator().modulo(getRobotJim().getX() + 1, (getRoom().getMaxX() +1)),
                                         getRobotJim().getY());
                         break;
                     case 2:
                         getRobotJim().getPosition()
                                 .setLocation(getRobotJim().getX(),
-                                        getOperator().modulo(getRobotJim().getY() + 1, getRoom().getMaxY()));
+                                        getOperator().modulo(getRobotJim().getY() + 1, (getRoom().getMaxY() + 1)));
                         break;
                     case 3:
                         getRobotJim().getPosition()
-                                .setLocation(getOperator().modulo(getRobotJim().getX() - 1, getRoom().getMaxX()),
+                                .setLocation(getOperator().modulo(getRobotJim().getX() - 1, (getRoom().getMaxX() + 1)),
                                         getRobotJim().getY());
                         break;
                 }
                 break;
-            case 3:                         // The Robot goes a little crazy in the Room in a shape of Klein's bottle
+            case 3:                         // the Robot goes a little crazy in the Room in a shape of Klein's bottle
                                             // moving cross the wall  up and down is normal, he appears from the other side
                                             // but moving cross the walls left and right makes him a little dizzy
                 switch (getRobotJim().getDirection()) {
                     case 0:
                         getRobotJim().getPosition()
                                 .setLocation(getRobotJim().getX(),
-                                        getOperator().modulo(getRobotJim().getY() - 1, getRoom().getMaxY()));
+                                        getOperator().modulo(getRobotJim().getY() - 1, (getRoom().getMaxY() + 1)));
                         break;
                     case 1:
                         getRobotJim().getPosition()
-                                .setLocation(getOperator().modulo(getRobotJim().getX() + 1, getRoom().getMaxX()),
+                                .setLocation(getOperator().modulo(getRobotJim().getX() + 1, (getRoom().getMaxX() + 1)),
                                         getRoom().getMaxY() - getRobotJim().getY());
                         break;
                     case 2:
                         getRobotJim().getPosition()
                                 .setLocation(getRobotJim().getX(),
-                                        getOperator().modulo(getRobotJim().getY() + 1, getRoom().getMaxY()));
+                                        getOperator().modulo(getRobotJim().getY() + 1, (getRoom().getMaxY() + 1)));
                         break;
                     case 3:
                         getRobotJim().getPosition()
-                                .setLocation(getOperator().modulo(getRobotJim().getX() - 1, getRoom().getMaxX()),
+                                .setLocation(getOperator().modulo(getRobotJim().getX() - 1, (getRoom().getMaxX() + 1)),
                                         getRoom().getMaxY() - getRobotJim().getY());
                         break;
                 }
                 break;
         }
     }
-
 
     /**
      * Checking if the Robot is still alive
@@ -223,28 +292,32 @@ public class Controller {
      * @return      position as "X Y D" where X,Y are Robot's coordinates ane D is Robot's direction
      */
     public String reportPosition() {
-        return (getRobotJim().getX() + 1) + " " + (getRobotJim().getY() + 1) + " " + getDirections().get(getRobotJim().getDirection());
+        return "(" +  (getRobotJim().getX() + 1) + "," + (getRobotJim().getY() + 1) + "," +
+                getDirections().get(getRobotJim().getDirection()) + ")";
     }
 
     /**
-     * Adding left turn to the program after using the button
+     * Adding left turn to the program after using the button (with the limit of 90 commends)
      */
     public void addToProgramL() {
-        getView().getTxtSetProgram().setText(getView().getTxtSetProgram().getText() + "L");
+        if (getView().getTxtSetProgram().getText().length() < 90)
+            getView().getTxtSetProgram().setText(getView().getTxtSetProgram().getText() + "L");
     }
 
     /**
-     * Adding forward move to the program after using the button
+     * Adding forward move to the program after using the button (with the limit of 90 commends)
      */
     public void addToProgramF() {
-        getView().getTxtSetProgram().setText(getView().getTxtSetProgram().getText() + "F");
+        if (getView().getTxtSetProgram().getText().length() < 90)
+            getView().getTxtSetProgram().setText(getView().getTxtSetProgram().getText() + "F");
     }
 
     /**
-     * Adding right turn to the program after using the button
+     * Adding right turn to the program after using the button (with the limit of 90 commends)
      */
     public void addToProgramR() {
-        getView().getTxtSetProgram().setText(getView().getTxtSetProgram().getText() + "R");
+        if (getView().getTxtSetProgram().getText().length() < 90)
+            getView().getTxtSetProgram().setText(getView().getTxtSetProgram().getText() + "R");
     }
 
     /**
@@ -307,6 +380,20 @@ public class Controller {
      * Executing the program after using the button
      */
     public void executeProgram() {
+        // clean old results
+        getView().getTxtarResultNumber01().setText("");
+        getView().getTxtarResultStep01().setText("");
+        getView().getTxtarResultResult01().setText("");
+        getView().getTxtarResultNumber02().setText("");
+        getView().getTxtarResultStep02().setText("");
+        getView().getTxtarResultResult02().setText("");
+        getView().getTxtarResultNumber03().setText("");
+        getView().getTxtarResultStep03().setText("");
+        getView().getTxtarResultResult03().setText("");
+        getView().getLblResultDesc01().setText("");
+        getView().getLblResultDesc02().setText("");
+        getView().getLblResultDesc03().setText("");
+
         int roomWidth = getView().getCmbSetWidth().getSelectedIndex();
         int roomHeight = getView().getCmbSetHeight().getSelectedIndex();
         int roomMode;
@@ -330,18 +417,21 @@ public class Controller {
         int robotPositionY = getView().getCmbSetPositionY().getSelectedIndex();
         int robotDirection = getView().getCmbSetDirection().getSelectedIndex();
         String robotDirectionDesc = getDirectionDescription(robotDirection);
-        robotJim = new RobotJim(robotDirection, new Point(robotPositionX, robotPositionY));         // robot creation
+        robotJim = new RobotJim(robotDirection, new Point(robotPositionX, robotPositionY));        // robot creation
 
         getView().getTabbedPane().setSelectedIndex(2);                      // activate report sheet and describe situation
         getView().getLblResultDesc01().setText("R" + roomDescription.substring(5) +
                 " had the size of " + (roomWidth + 1) + "x" + (roomHeight + 1));
         getView().getLblResultDesc02().setText("Robot Jim started from (" + (robotPositionX + 1) + "," +
-                (robotPositionY + 1) + ") and he was facing " + robotDirectionDesc);
+                (robotPositionY + 1) + ") facing " + robotDirectionDesc);
 
         String commandLine = getView().getTxtSetProgram().getText();
-        executeCommandLine(commandLine);                                    // program execution
+        executeCommandLine(commandLine);                                    // execute program
 
-        System.out.println(reportPosition());                               // final report
+        if (getView().getLblResultDesc03().getText().equals(""))            // final report if the Robot survived
+            getView().getLblResultDesc03().setText("After below steps Jim ended in (" +
+                    (getRobotJim().getX() + 1) + "," + (getRobotJim().getY() + 1) + ") facing " +
+                    getDirectionDescription(getRobotJim().getDirection()));
     }
 
     /**

@@ -12,6 +12,7 @@ public class RobotJim {
     private int direction;                  // 0 for North
     private Point position;
     private int amountOfLives;              // only for RoomToDie
+    private boolean justCrashed;            // true if the Robot crashed right before a moment
 
     /**
      * Constructor of the Robot with possible-to-use life parameter and its starting position given as a Point
@@ -20,15 +21,7 @@ public class RobotJim {
         this.setDirection(direction);
         this.setPosition(point);
         this.setAmountOfLives(3);
-    }
-
-    /**
-     * Constructor of the Robot with possible-to-use life parameter and its starting position given as coordinates
-     */
-    public RobotJim(int direction, int X, int Y) {
-        this.setDirection(direction);
-        this.setPosition(new Point(X, Y));
-        this.setAmountOfLives(3);
+        this.setJustCrashed(false);
     }
 
     /**
@@ -37,6 +30,7 @@ public class RobotJim {
     public int getDirection() { return direction; }
     public Point getPosition() { return position; }
     public int getAmountOfLives() { return amountOfLives; }
+    public boolean ifJustCrashed() { return justCrashed; }
 
     /**
      * Setters for this class
@@ -44,6 +38,7 @@ public class RobotJim {
     public void setDirection(int direction) { this.direction = direction; }
     public void setPosition(Point position) { this.position = position; }
     public void setAmountOfLives(int amountOfLives) { this.amountOfLives = amountOfLives; }
+    public void setJustCrashed(boolean justCrashed) { this.justCrashed = justCrashed; }
 
     // ==============================================  Methods  ==============================================
 
