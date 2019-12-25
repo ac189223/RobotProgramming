@@ -1,5 +1,7 @@
 package Model;
 
+import Controller.Operator;
+
 import java.awt.*;
 
 /**
@@ -9,9 +11,10 @@ import java.awt.*;
  * @author =-_-=
  */
 public class RobotJim {
+    private Operator operator = new Operator();
     private int direction;                  // 0 for North
     private Point position;
-    private int amountOfLives;              // only for RoomToDie
+    private int amountOfLives;              // only for RoomToDie, 3 lives from default
     private boolean justCrashed;            // true if the Robot crashed right before a moment
 
     /**
@@ -35,7 +38,7 @@ public class RobotJim {
     /**
      * Setters for this class
      */
-    public void setDirection(int direction) { this.direction = direction; }
+    public void setDirection(int direction) { this.direction = operator.modulo(direction,4); }
     public void setPosition(Point position) { this.position = position; }
     public void setAmountOfLives(int amountOfLives) { this.amountOfLives = amountOfLives; }
     public void setJustCrashed(boolean justCrashed) { this.justCrashed = justCrashed; }

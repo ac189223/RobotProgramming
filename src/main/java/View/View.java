@@ -224,7 +224,7 @@ public class View {
 	/**
 	 * Create the application.
 	 */
-	View() {
+	public View() {
 		initialize();
 	}
 
@@ -292,7 +292,7 @@ public class View {
 		txtarDescr01.setEnabled(false);
 		txtarDescr01.setBackground(new Color(0,0,0));
 		txtarDescr01.setFont(new Font("Tw Cen MT", Font.PLAIN, 16));
-		txtarDescr01.setBounds(20, 100, 450, 500);
+		txtarDescr01.setBounds(20, 100, 500, 500);
 		panel01.add(txtarDescr01);
 
 // panel02 ==================    Set & Run    =========================== panel02
