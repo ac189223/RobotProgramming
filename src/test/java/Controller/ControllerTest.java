@@ -12,7 +12,7 @@ import java.awt.*;
 import static org.junit.Assert.*;
 
 /**
- * Tests for the Controller class (78 tests)
+ * Tests for the Controller class (91 tests)
  *
  * @author andrzejcalka
  * @author =-_-=
@@ -1174,6 +1174,74 @@ public class ControllerTest {
     }
 
     @Test
+    public void cleanOldResultsTest01_FirstColumn() {
+        // Arrange
+        JFrame frame = new JFrame();
+        View view = new View();
+        Controller controller = new Controller(frame,view);
+        view.getTxtarResultNumber01().setText("testNumber");
+        view.getTxtarResultStep01().setText("testStep");
+        view.getTxtarResultResult01().setText("testResult");
+        // Act
+        controller.cleanOldResults();
+        // Assert
+        assertEquals(0,view.getTxtarResultNumber01().getText().length());
+        assertEquals(0,view.getTxtarResultStep01().getText().length());
+        assertEquals(0,view.getTxtarResultResult01().getText().length());
+    }
+
+    @Test
+    public void cleanOldResultsTest02_SecondColumn() {
+        // Arrange
+        JFrame frame = new JFrame();
+        View view = new View();
+        Controller controller = new Controller(frame,view);
+        view.getTxtarResultNumber02().setText("testNumber");
+        view.getTxtarResultStep02().setText("testStep");
+        view.getTxtarResultResult02().setText("testResult");
+        // Act
+        controller.cleanOldResults();
+        // Assert
+        assertEquals(0,view.getTxtarResultNumber02().getText().length());
+        assertEquals(0,view.getTxtarResultStep02().getText().length());
+        assertEquals(0,view.getTxtarResultResult02().getText().length());
+    }
+
+    @Test
+    public void cleanOldResultsTest03_ThirdColumn() {
+        // Arrange
+        JFrame frame = new JFrame();
+        View view = new View();
+        Controller controller = new Controller(frame,view);
+        view.getTxtarResultNumber03().setText("testNumber");
+        view.getTxtarResultStep03().setText("testStep");
+        view.getTxtarResultResult03().setText("testResult");
+        // Act
+        controller.cleanOldResults();
+        // Assert
+        assertEquals(0,view.getTxtarResultNumber03().getText().length());
+        assertEquals(0,view.getTxtarResultStep03().getText().length());
+        assertEquals(0,view.getTxtarResultResult03().getText().length());
+    }
+
+    @Test
+    public void cleanOldResultsTest04_Description() {
+        // Arrange
+        JFrame frame = new JFrame();
+        View view = new View();
+        Controller controller = new Controller(frame,view);
+        view.getLblResultDesc01().setText("testDescription01");
+        view.getLblResultDesc02().setText("testDescription02");
+        view.getLblResultDesc03().setText("testDescription03");
+        // Act
+        controller.cleanOldResults();
+        // Assert
+        assertEquals(0,view.getLblResultDesc01().getText().length());
+        assertEquals(0,view.getLblResultDesc02().getText().length());
+        assertEquals(0,view.getLblResultDesc03().getText().length());
+    }
+
+    @Test
     public void getDirectionDescriptionTest01_North() {
         // Arrange
         JFrame frame = new JFrame();
@@ -1228,4 +1296,156 @@ public class ControllerTest {
         // Assert
         assertEquals("West",check);
     }
+
+    @Test
+    public void createRoomFromInputDataTest01_RoomSize() {
+        // Arrange
+        JFrame frame = new JFrame();
+        View view = new View();
+        Controller controller = new Controller(frame,view);
+        view.getCmbSetWidth().setSelectedIndex(8);
+        view.getCmbSetHeight().setSelectedIndex(12);
+        // Act
+        controller.createRoomFromInputData();
+        // Assert
+        assertEquals(8, controller.getRoom().getMaxX());
+        assertEquals(12,controller.getRoom().getMaxY());
+    }
+
+    @Test
+    public void createRoomFromInputDataTest02_RoomMode0() {
+        // Arrange
+        JFrame frame = new JFrame();
+        View view = new View();
+        Controller controller = new Controller(frame,view);
+        view.getRdbtnRoomToDie().setSelected(true);
+        // Act
+        controller.createRoomFromInputData();
+        // Assert
+        assertEquals(0,controller.getRoom().getMode());
+    }
+
+    @Test
+    public void createRoomFromInputDataTest03_RoomMode1() {
+        // Arrange
+        JFrame frame = new JFrame();
+        View view = new View();
+        Controller controller = new Controller(frame,view);
+        view.getRdbtnRoomWithWalls().setSelected(true);
+        // Act
+        controller.createRoomFromInputData();
+        // Assert
+        assertEquals(1,controller.getRoom().getMode());
+    }
+
+    @Test
+    public void createRoomFromInputDataTest04_RoomMode2() {
+        // Arrange
+        JFrame frame = new JFrame();
+        View view = new View();
+        Controller controller = new Controller(frame,view);
+        view.getRdbtnRoomGoesRound().setSelected(true);
+        // Act
+        controller.createRoomFromInputData();
+        // Assert
+        assertEquals(2,controller.getRoom().getMode());
+    }
+
+    @Test
+    public void createRoomFromInputDataTest05_RoomMode3() {
+        // Arrange
+        JFrame frame = new JFrame();
+        View view = new View();
+        Controller controller = new Controller(frame,view);
+        view.getRdbtnRoomOfMagic().setSelected(true);
+        // Act
+        controller.createRoomFromInputData();
+        // Assert
+        assertEquals(3,controller.getRoom().getMode());
+    }
+
+    @Test
+    public void createRoomFromInputDataTest06_DescriptionInView_RoomMode0() {
+        // Arrange
+        JFrame frame = new JFrame();
+        View view = new View();
+        Controller controller = new Controller(frame,view);
+        view.getCmbSetWidth().setSelectedIndex(8);
+        view.getCmbSetHeight().setSelectedIndex(12);
+        view.getRdbtnRoomToDie().setSelected(true);
+        // Act
+        controller.createRoomFromInputData();
+        // Assert
+        assertFalse(view.getLblResultDesc01().getText().isEmpty());
+        assertEquals("Room", view.getLblResultDesc01().getText().substring(0, 4));
+        assertEquals("9x13", view.getLblResultDesc01().getText()
+                .substring(view.getLblResultDesc01().getText().length() - 4));
+        assertTrue(view.getLblResultDesc01().getText().indexOf("die in 3x") > 0);
+    }
+
+    @Test
+    public void createRoomFromInputDataTest07_DescriptionInView_RoomMode1() {
+        // Arrange
+        JFrame frame = new JFrame();
+        View view = new View();
+        Controller controller = new Controller(frame,view);
+        view.getCmbSetWidth().setSelectedIndex(8);
+        view.getCmbSetHeight().setSelectedIndex(12);
+        view.getRdbtnRoomWithWalls().setSelected(true);
+        // Act
+        controller.createRoomFromInputData();
+        // Assert
+        assertFalse(view.getLblResultDesc01().getText().isEmpty());
+        assertEquals("Room", view.getLblResultDesc01().getText().substring(0, 4));
+        assertEquals("9x13", view.getLblResultDesc01().getText()
+                .substring(view.getLblResultDesc01().getText().length() - 4));
+        assertTrue(view.getLblResultDesc01().getText().indexOf("with walls") > 0);
+    }
+
+    @Test
+    public void createRoomFromInputDataTest08_DescriptionInView_RoomMode2() {
+        // Arrange
+        JFrame frame = new JFrame();
+        View view = new View();
+        Controller controller = new Controller(frame,view);
+        view.getCmbSetWidth().setSelectedIndex(8);
+        view.getCmbSetHeight().setSelectedIndex(12);
+        view.getRdbtnRoomGoesRound().setSelected(true);
+        // Act
+        controller.createRoomFromInputData();
+        // Assert
+        assertFalse(view.getLblResultDesc01().getText().isEmpty());
+        assertEquals("Room", view.getLblResultDesc01().getText().substring(0, 4));
+        assertEquals("9x13", view.getLblResultDesc01().getText()
+                .substring(view.getLblResultDesc01().getText().length() - 4));
+        assertTrue(view.getLblResultDesc01().getText().indexOf("goes round") > 0);
+    }
+
+    @Test
+    public void createRoomFromInputDataTest09_DescriptionInView_RoomMode3() {
+        // Arrange
+        JFrame frame = new JFrame();
+        View view = new View();
+        Controller controller = new Controller(frame,view);
+        view.getCmbSetWidth().setSelectedIndex(8);
+        view.getCmbSetHeight().setSelectedIndex(12);
+        view.getRdbtnRoomOfMagic().setSelected(true);
+        // Act
+        controller.createRoomFromInputData();
+        // Assert
+        assertFalse(view.getLblResultDesc01().getText().isEmpty());
+        assertEquals("Room", view.getLblResultDesc01().getText().substring(0, 4));
+        assertEquals("9x13", view.getLblResultDesc01().getText()
+                .substring(view.getLblResultDesc01().getText().length() - 4));
+        assertTrue(view.getLblResultDesc01().getText().indexOf("of magic") > 0);
+    }
+
+
+
+
+
+
+
+
+
 }

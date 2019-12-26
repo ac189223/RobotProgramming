@@ -390,7 +390,34 @@ public class Controller {
      * Executing the program after using the button
      */
     public void executeProgram() {
-        // clean old results
+        cleanOldResults();
+
+        createRoomFromInputData();
+
+        int robotPositionX = getView().getCmbSetPositionX().getSelectedIndex();
+        int robotPositionY = getView().getCmbSetPositionY().getSelectedIndex();
+        int robotDirection = getView().getCmbSetDirection().getSelectedIndex();
+        String robotDirectionDesc = getDirectionDescription(robotDirection);
+        robotJim = new RobotJim(robotDirection, new Point(robotPositionX, robotPositionY));        // robot creation
+
+        getView().getLblResultDesc02().setText("Robot Jim started from (" + (robotPositionX + 1) + "," +
+                (robotPositionY + 1) + ") facing " + robotDirectionDesc);
+
+        String commandLine = getView().getTxtSetProgram().getText();
+        executeCommandLine(commandLine);                                    // execute program
+
+        if (getView().getLblResultDesc03().getText().equals(""))            // final report if the Robot survived
+            getView().getLblResultDesc03().setText("After below steps Jim ended in (" +
+                    (getRobotJim().getX() + 1) + "," + (getRobotJim().getY() + 1) + ") facing " +
+                    getDirectionDescription(getRobotJim().getDirection()));
+
+        getView().getTabbedPane().setSelectedIndex(2);                      // activate report sheet to describe situation
+    }
+
+    /**
+     * Cleaning old results from the view
+     */
+    public void cleanOldResults() {
         getView().getTxtarResultNumber01().setText("");
         getView().getTxtarResultStep01().setText("");
         getView().getTxtarResultResult01().setText("");
@@ -403,7 +430,12 @@ public class Controller {
         getView().getLblResultDesc01().setText("");
         getView().getLblResultDesc02().setText("");
         getView().getLblResultDesc03().setText("");
+    }
 
+    /**
+     * Creation of the Room according to the parameters provided by the user
+     */
+    public void createRoomFromInputData() {
         int roomWidth = getView().getCmbSetWidth().getSelectedIndex();
         int roomHeight = getView().getCmbSetHeight().getSelectedIndex();
         int roomMode;
@@ -421,27 +453,9 @@ public class Controller {
             roomMode = 3;
             roomDescription = getView().getLblRoomOfMagic().getText();
         }
-        room = new RoomOfTheRooms(roomWidth, roomHeight, roomMode);         // room creation according to input data
-
-        int robotPositionX = getView().getCmbSetPositionX().getSelectedIndex();
-        int robotPositionY = getView().getCmbSetPositionY().getSelectedIndex();
-        int robotDirection = getView().getCmbSetDirection().getSelectedIndex();
-        String robotDirectionDesc = getDirectionDescription(robotDirection);
-        robotJim = new RobotJim(robotDirection, new Point(robotPositionX, robotPositionY));        // robot creation
-
-        getView().getTabbedPane().setSelectedIndex(2);                      // activate report sheet and describe situation
-        getView().getLblResultDesc01().setText("R" + roomDescription.substring(5) +
+        room = new RoomOfTheRooms(roomWidth, roomHeight, roomMode);                         // create the Room
+        getView().getLblResultDesc01().setText("R" + roomDescription.substring(5) +         // describe it
                 " had the size of " + (roomWidth + 1) + "x" + (roomHeight + 1));
-        getView().getLblResultDesc02().setText("Robot Jim started from (" + (robotPositionX + 1) + "," +
-                (robotPositionY + 1) + ") facing " + robotDirectionDesc);
-
-        String commandLine = getView().getTxtSetProgram().getText();
-        executeCommandLine(commandLine);                                    // execute program
-
-        if (getView().getLblResultDesc03().getText().equals(""))            // final report if the Robot survived
-            getView().getLblResultDesc03().setText("After below steps Jim ended in (" +
-                    (getRobotJim().getX() + 1) + "," + (getRobotJim().getY() + 1) + ") facing " +
-                    getDirectionDescription(getRobotJim().getDirection()));
     }
 
     /**
