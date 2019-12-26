@@ -12,7 +12,7 @@ import java.awt.*;
 import static org.junit.Assert.*;
 
 /**
- * Tests for the Controller class (112 tests)
+ * Tests for the Controller class (113 tests)
  *
  * @author andrzejcalka
  * @author =-_-=
@@ -20,7 +20,7 @@ import static org.junit.Assert.*;
 public class ControllerTest {
 
     @Test
-    public void controllerCreationTest01_Directions() {
+    public void controllerCreationTest01_DirectionsAmount() {
         // Arrange
         JFrame frame = new JFrame();
         View view = new View();
@@ -28,6 +28,16 @@ public class ControllerTest {
         Controller controller = new Controller(frame,view);
         // Assert
         assertEquals(4, controller.getDirections().size());
+    }
+
+    @Test
+    public void controllerCreationTest02_DirectionsDetails() {
+        // Arrange
+        JFrame frame = new JFrame();
+        View view = new View();
+        // Act
+        Controller controller = new Controller(frame,view);
+        // Assert
         assertEquals("N", String.valueOf(controller.getDirections().get(0)));
         assertEquals("E", String.valueOf(controller.getDirections().get(1)));
         assertEquals("S", String.valueOf(controller.getDirections().get(2)));
