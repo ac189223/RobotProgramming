@@ -394,24 +394,13 @@ public class Controller {
 
         createRoomFromInputData();
 
-        int robotPositionX = getView().getCmbSetPositionX().getSelectedIndex();
-        int robotPositionY = getView().getCmbSetPositionY().getSelectedIndex();
-        int robotDirection = getView().getCmbSetDirection().getSelectedIndex();
-        String robotDirectionDesc = getDirectionDescription(robotDirection);
-        robotJim = new RobotJim(robotDirection, new Point(robotPositionX, robotPositionY));        // robot creation
+        createRobotFromInputData();
 
-        getView().getLblResultDesc02().setText("Robot Jim started from (" + (robotPositionX + 1) + "," +
-                (robotPositionY + 1) + ") facing " + robotDirectionDesc);
+        getAndExecuteProgram();
 
-        String commandLine = getView().getTxtSetProgram().getText();
-        executeCommandLine(commandLine);                                    // execute program
+        reportPositionIfTheRobotSurvived();
 
-        if (getView().getLblResultDesc03().getText().equals(""))            // final report if the Robot survived
-            getView().getLblResultDesc03().setText("After below steps Jim ended in (" +
-                    (getRobotJim().getX() + 1) + "," + (getRobotJim().getY() + 1) + ") facing " +
-                    getDirectionDescription(getRobotJim().getDirection()));
-
-        getView().getTabbedPane().setSelectedIndex(2);                      // activate report sheet to describe situation
+        showReportToTheUser();
     }
 
     /**
@@ -433,7 +422,7 @@ public class Controller {
     }
 
     /**
-     * Creation of the Room according to the parameters provided by the user
+     * Creating the Room according to the parameters provided by the user
      */
     public void createRoomFromInputData() {
         int roomWidth = getView().getCmbSetWidth().getSelectedIndex();
@@ -454,8 +443,33 @@ public class Controller {
             roomDescription = getView().getLblRoomOfMagic().getText();
         }
         room = new RoomOfTheRooms(roomWidth, roomHeight, roomMode);                         // create the Room
-        getView().getLblResultDesc01().setText("R" + roomDescription.substring(5) +         // describe it
-                " had the size of " + (roomWidth + 1) + "x" + (roomHeight + 1));
+
+        getView().getLblResultDesc01().setText("R" + roomDescription.substring(5) +
+                " had the size of " + (roomWidth + 1) + "x" + (roomHeight + 1));            // describe in the view
+    }
+
+    /**
+     * Creating the Robot according to the parameters provided by the user
+     */
+    public void createRobotFromInputData() {
+        int robotPositionX = getView().getCmbSetPositionX().getSelectedIndex();
+        int robotPositionY = getView().getCmbSetPositionY().getSelectedIndex();
+        int robotDirection = getView().getCmbSetDirection().getSelectedIndex();
+        String robotDirectionDesc = getDirectionDescription(robotDirection);
+        robotJim = new RobotJim(robotDirection, new Point(robotPositionX, robotPositionY));  // create the Robot
+
+        getView().getLblResultDesc02().setText("Robot Jim started from (" + (robotPositionX + 1) + "," +
+                (robotPositionY + 1) + ") facing " + robotDirectionDesc);                   // describe in the view
+    }
+
+    /**
+     * Reporting the final position of the Robot if he manage to survive the execution of the program
+     */
+    public void reportPositionIfTheRobotSurvived() {
+        if (getView().getLblResultDesc03().getText().equals(""))
+            getView().getLblResultDesc03().setText("After below steps Jim ended in (" +
+                    (getRobotJim().getX() + 1) + "," + (getRobotJim().getY() + 1) + ") facing " +
+                    getDirectionDescription(getRobotJim().getDirection()));
     }
 
     /**
@@ -475,5 +489,20 @@ public class Controller {
         else
             description = "West";
         return description;
+    }
+
+    /**
+     * Fetching the program typed in by the user and executing it
+     */
+    public void getAndExecuteProgram() {
+        String commandLine = getView().getTxtSetProgram().getText();
+        executeCommandLine(commandLine);
+    }
+
+    /**
+     * Making tab with the report visible in the user interface
+     */
+    public void showReportToTheUser() {
+        getView().getTabbedPane().setSelectedIndex(2);
     }
 }

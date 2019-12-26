@@ -12,7 +12,7 @@ import java.awt.*;
 import static org.junit.Assert.*;
 
 /**
- * Tests for the Controller class (91 tests)
+ * Tests for the Controller class (112 tests)
  *
  * @author andrzejcalka
  * @author =-_-=
@@ -1185,9 +1185,9 @@ public class ControllerTest {
         // Act
         controller.cleanOldResults();
         // Assert
-        assertEquals(0,view.getTxtarResultNumber01().getText().length());
-        assertEquals(0,view.getTxtarResultStep01().getText().length());
-        assertEquals(0,view.getTxtarResultResult01().getText().length());
+        assertEquals(0, view.getTxtarResultNumber01().getText().length());
+        assertEquals(0, view.getTxtarResultStep01().getText().length());
+        assertEquals(0, view.getTxtarResultResult01().getText().length());
     }
 
     @Test
@@ -1202,9 +1202,9 @@ public class ControllerTest {
         // Act
         controller.cleanOldResults();
         // Assert
-        assertEquals(0,view.getTxtarResultNumber02().getText().length());
-        assertEquals(0,view.getTxtarResultStep02().getText().length());
-        assertEquals(0,view.getTxtarResultResult02().getText().length());
+        assertEquals(0, view.getTxtarResultNumber02().getText().length());
+        assertEquals(0, view.getTxtarResultStep02().getText().length());
+        assertEquals(0, view.getTxtarResultResult02().getText().length());
     }
 
     @Test
@@ -1219,9 +1219,9 @@ public class ControllerTest {
         // Act
         controller.cleanOldResults();
         // Assert
-        assertEquals(0,view.getTxtarResultNumber03().getText().length());
-        assertEquals(0,view.getTxtarResultStep03().getText().length());
-        assertEquals(0,view.getTxtarResultResult03().getText().length());
+        assertEquals(0, view.getTxtarResultNumber03().getText().length());
+        assertEquals(0, view.getTxtarResultStep03().getText().length());
+        assertEquals(0, view.getTxtarResultResult03().getText().length());
     }
 
     @Test
@@ -1236,9 +1236,9 @@ public class ControllerTest {
         // Act
         controller.cleanOldResults();
         // Assert
-        assertEquals(0,view.getLblResultDesc01().getText().length());
-        assertEquals(0,view.getLblResultDesc02().getText().length());
-        assertEquals(0,view.getLblResultDesc03().getText().length());
+        assertEquals(0, view.getLblResultDesc01().getText().length());
+        assertEquals(0, view.getLblResultDesc02().getText().length());
+        assertEquals(0, view.getLblResultDesc03().getText().length());
     }
 
     @Test
@@ -1252,7 +1252,7 @@ public class ControllerTest {
         // Act
         String check = controller.getDirectionDescription(robotJim.getDirection());
         // Assert
-        assertEquals("North",check);
+        assertEquals("North", check);
     }
 
     @Test
@@ -1266,7 +1266,7 @@ public class ControllerTest {
         // Act
         String check = controller.getDirectionDescription(robotJim.getDirection());
         // Assert
-        assertEquals("East",check);
+        assertEquals("East", check);
     }
 
     @Test
@@ -1280,7 +1280,7 @@ public class ControllerTest {
         // Act
         String check = controller.getDirectionDescription(robotJim.getDirection());
         // Assert
-        assertEquals("South",check);
+        assertEquals("South", check);
     }
 
     @Test
@@ -1294,7 +1294,7 @@ public class ControllerTest {
         // Act
         String check = controller.getDirectionDescription(robotJim.getDirection());
         // Assert
-        assertEquals("West",check);
+        assertEquals("West", check);
     }
 
     @Test
@@ -1309,7 +1309,7 @@ public class ControllerTest {
         controller.createRoomFromInputData();
         // Assert
         assertEquals(8, controller.getRoom().getMaxX());
-        assertEquals(12,controller.getRoom().getMaxY());
+        assertEquals(12, controller.getRoom().getMaxY());
     }
 
     @Test
@@ -1322,7 +1322,7 @@ public class ControllerTest {
         // Act
         controller.createRoomFromInputData();
         // Assert
-        assertEquals(0,controller.getRoom().getMode());
+        assertEquals(0, controller.getRoom().getMode());
     }
 
     @Test
@@ -1335,7 +1335,7 @@ public class ControllerTest {
         // Act
         controller.createRoomFromInputData();
         // Assert
-        assertEquals(1,controller.getRoom().getMode());
+        assertEquals(1, controller.getRoom().getMode());
     }
 
     @Test
@@ -1348,7 +1348,7 @@ public class ControllerTest {
         // Act
         controller.createRoomFromInputData();
         // Assert
-        assertEquals(2,controller.getRoom().getMode());
+        assertEquals(2, controller.getRoom().getMode());
     }
 
     @Test
@@ -1361,11 +1361,28 @@ public class ControllerTest {
         // Act
         controller.createRoomFromInputData();
         // Assert
-        assertEquals(3,controller.getRoom().getMode());
+        assertEquals(3, controller.getRoom().getMode());
     }
 
     @Test
-    public void createRoomFromInputDataTest06_DescriptionInView_RoomMode0() {
+    public void createRobotFromInputDataTest06_DescriptionInView_RoomSize() {
+        // Arrange
+        JFrame frame = new JFrame();
+        View view = new View();
+        Controller controller = new Controller(frame,view);
+        view.getCmbSetWidth().setSelectedIndex(8);
+        view.getCmbSetHeight().setSelectedIndex(12);
+        view.getRdbtnRoomToDie().setSelected(true);
+        // Act
+        controller.createRoomFromInputData();
+        // Assert
+        assertFalse(view.getLblResultDesc01().getText().isEmpty());
+        assertEquals("9x13", view.getLblResultDesc01().getText()
+                .substring(view.getLblResultDesc01().getText().length() - 4));
+    }
+
+    @Test
+    public void createRobotFromInputDataTest07_DescriptionInView_RoomMode0() {
         // Arrange
         JFrame frame = new JFrame();
         View view = new View();
@@ -1378,13 +1395,11 @@ public class ControllerTest {
         // Assert
         assertFalse(view.getLblResultDesc01().getText().isEmpty());
         assertEquals("Room", view.getLblResultDesc01().getText().substring(0, 4));
-        assertEquals("9x13", view.getLblResultDesc01().getText()
-                .substring(view.getLblResultDesc01().getText().length() - 4));
         assertTrue(view.getLblResultDesc01().getText().indexOf("die in 3x") > 0);
     }
 
     @Test
-    public void createRoomFromInputDataTest07_DescriptionInView_RoomMode1() {
+    public void createRoomFromInputDataTest08_DescriptionInView_RoomMode1() {
         // Arrange
         JFrame frame = new JFrame();
         View view = new View();
@@ -1397,13 +1412,11 @@ public class ControllerTest {
         // Assert
         assertFalse(view.getLblResultDesc01().getText().isEmpty());
         assertEquals("Room", view.getLblResultDesc01().getText().substring(0, 4));
-        assertEquals("9x13", view.getLblResultDesc01().getText()
-                .substring(view.getLblResultDesc01().getText().length() - 4));
         assertTrue(view.getLblResultDesc01().getText().indexOf("with walls") > 0);
     }
 
     @Test
-    public void createRoomFromInputDataTest08_DescriptionInView_RoomMode2() {
+    public void createRoomFromInputDataTest09_DescriptionInView_RoomMode2() {
         // Arrange
         JFrame frame = new JFrame();
         View view = new View();
@@ -1416,13 +1429,11 @@ public class ControllerTest {
         // Assert
         assertFalse(view.getLblResultDesc01().getText().isEmpty());
         assertEquals("Room", view.getLblResultDesc01().getText().substring(0, 4));
-        assertEquals("9x13", view.getLblResultDesc01().getText()
-                .substring(view.getLblResultDesc01().getText().length() - 4));
         assertTrue(view.getLblResultDesc01().getText().indexOf("goes round") > 0);
     }
 
     @Test
-    public void createRoomFromInputDataTest09_DescriptionInView_RoomMode3() {
+    public void createRoomFromInputDataTest10_DescriptionInView_RoomMode3() {
         // Arrange
         JFrame frame = new JFrame();
         View view = new View();
@@ -1435,17 +1446,325 @@ public class ControllerTest {
         // Assert
         assertFalse(view.getLblResultDesc01().getText().isEmpty());
         assertEquals("Room", view.getLblResultDesc01().getText().substring(0, 4));
-        assertEquals("9x13", view.getLblResultDesc01().getText()
-                .substring(view.getLblResultDesc01().getText().length() - 4));
         assertTrue(view.getLblResultDesc01().getText().indexOf("of magic") > 0);
     }
 
+    @Test
+    public void createRobotFromInputDataTest01_Position() {
+        // Arrange
+        JFrame frame = new JFrame();
+        View view = new View();
+        Controller controller = new Controller(frame,view);
+        view.getCmbSetWidth().setSelectedIndex(8);
+        view.getCmbSetPositionX().setSelectedIndex(4);
+        view.getCmbSetHeight().setSelectedIndex(12);
+        view.getCmbSetPositionY().setSelectedIndex(9);
+        // Act
+        controller.createRobotFromInputData();
+        // Assert
+        assertEquals(4, controller.getRobotJim().getX());
+        assertEquals(9, controller.getRobotJim().getY());
+    }
 
+    @Test
+    public void createRobotFromInputDataTest02_Direction0() {
+        // Arrange
+        JFrame frame = new JFrame();
+        View view = new View();
+        Controller controller = new Controller(frame,view);
+        view.getCmbSetDirection().setSelectedIndex(0);
+        // Act
+        controller.createRobotFromInputData();
+        // Assert
+        assertEquals(0, controller.getRobotJim().getDirection());
+    }
 
+    @Test
+    public void createRobotFromInputDataTest03_Direction1() {
+        // Arrange
+        JFrame frame = new JFrame();
+        View view = new View();
+        Controller controller = new Controller(frame,view);
+        view.getCmbSetDirection().setSelectedIndex(1);
+        // Act
+        controller.createRobotFromInputData();
+        // Assert
+        assertEquals(1, controller.getRobotJim().getDirection());
+    }
 
+    @Test
+    public void createRobotFromInputDataTest04_Direction2() {
+        // Arrange
+        JFrame frame = new JFrame();
+        View view = new View();
+        Controller controller = new Controller(frame,view);
+        view.getCmbSetDirection().setSelectedIndex(2);
+        // Act
+        controller.createRobotFromInputData();
+        // Assert
+        assertEquals(2, controller.getRobotJim().getDirection());
+    }
 
+    @Test
+    public void createRobotFromInputDataTest05_Direction3() {
+        // Arrange
+        JFrame frame = new JFrame();
+        View view = new View();
+        Controller controller = new Controller(frame,view);
+        view.getCmbSetDirection().setSelectedIndex(3);
+        // Act
+        controller.createRobotFromInputData();
+        // Assert
+        assertEquals(3, controller.getRobotJim().getDirection());
+    }
 
+    @Test
+    public void createRobotFromInputDataTest06_DescriptionInView_Position() {
+        // Arrange
+        JFrame frame = new JFrame();
+        View view = new View();
+        Controller controller = new Controller(frame,view);
+        view.getCmbSetWidth().setSelectedIndex(8);
+        view.getCmbSetPositionX().setSelectedIndex(4);
+        view.getCmbSetHeight().setSelectedIndex(12);
+        view.getCmbSetPositionY().setSelectedIndex(9);
+        view.getCmbSetDirection().setSelectedIndex(0);
+        // Act
+        controller.createRobotFromInputData();
+        // Assert
+        assertFalse(view.getLblResultDesc02().getText().isEmpty());
+        assertEquals("Robot Jim", view.getLblResultDesc02().getText().substring(0, 9));
+        assertTrue(view.getLblResultDesc02().getText().indexOf("(5,10)") > 0);
+    }
 
+    @Test
+    public void createRobotFromInputDataTest07_DescriptionInView_Direction0() {
+        // Arrange
+        JFrame frame = new JFrame();
+        View view = new View();
+        Controller controller = new Controller(frame,view);
+        view.getCmbSetWidth().setSelectedIndex(8);
+        view.getCmbSetPositionX().setSelectedIndex(4);
+        view.getCmbSetHeight().setSelectedIndex(12);
+        view.getCmbSetPositionY().setSelectedIndex(9);
+        view.getCmbSetDirection().setSelectedIndex(0);
+        // Act
+        controller.createRobotFromInputData();
+        // Assert
+        assertFalse(view.getLblResultDesc02().getText().isEmpty());
+        assertEquals("North", view.getLblResultDesc02().getText()
+                .substring(view.getLblResultDesc02().getText().length() - 5));
+    }
 
+    @Test
+    public void createRobotFromInputDataTest08_DescriptionInView_Direction1() {
+        // Arrange
+        JFrame frame = new JFrame();
+        View view = new View();
+        Controller controller = new Controller(frame,view);
+        view.getCmbSetWidth().setSelectedIndex(8);
+        view.getCmbSetPositionX().setSelectedIndex(4);
+        view.getCmbSetHeight().setSelectedIndex(12);
+        view.getCmbSetPositionY().setSelectedIndex(9);
+        view.getCmbSetDirection().setSelectedIndex(1);
+        // Act
+        controller.createRobotFromInputData();
+        // Assert
+        assertFalse(view.getLblResultDesc02().getText().isEmpty());
+        assertEquals("East", view.getLblResultDesc02().getText()
+                .substring(view.getLblResultDesc02().getText().length() - 4));
+    }
 
+    @Test
+    public void createRobotFromInputDataTest09_DescriptionInView_Direction2() {
+        // Arrange
+        JFrame frame = new JFrame();
+        View view = new View();
+        Controller controller = new Controller(frame,view);
+        view.getCmbSetWidth().setSelectedIndex(8);
+        view.getCmbSetPositionX().setSelectedIndex(4);
+        view.getCmbSetHeight().setSelectedIndex(12);
+        view.getCmbSetPositionY().setSelectedIndex(9);
+        view.getCmbSetDirection().setSelectedIndex(2);
+        // Act
+        controller.createRobotFromInputData();
+        // Assert
+        assertFalse(view.getLblResultDesc02().getText().isEmpty());
+        assertEquals("South", view.getLblResultDesc02().getText()
+                .substring(view.getLblResultDesc02().getText().length() - 5));
+    }
+
+    @Test
+    public void createRobotFromInputDataTest10_DescriptionInView_Direction3() {
+        // Arrange
+        JFrame frame = new JFrame();
+        View view = new View();
+        Controller controller = new Controller(frame,view);
+        view.getCmbSetWidth().setSelectedIndex(8);
+        view.getCmbSetPositionX().setSelectedIndex(4);
+        view.getCmbSetHeight().setSelectedIndex(12);
+        view.getCmbSetPositionY().setSelectedIndex(9);
+        view.getCmbSetDirection().setSelectedIndex(3);
+        // Act
+        controller.createRobotFromInputData();
+        // Assert
+        assertFalse(view.getLblResultDesc02().getText().isEmpty());
+        assertEquals("West", view.getLblResultDesc02().getText()
+                .substring(view.getLblResultDesc02().getText().length() - 4));
+    }
+
+    @Test
+    public void reportPositionIfTheRobotSurvivedTest01() {
+        // Arrange
+        JFrame frame = new JFrame();
+        View view = new View();
+        RobotJim robotJim = new RobotJim(0, new Point(3,6));
+        Controller controller = new Controller(frame,view);
+        controller.setRobotJim(robotJim);
+        // Act
+        controller.reportPositionIfTheRobotSurvived();
+        // Assert
+        assertFalse(view.getLblResultDesc03().getText().isEmpty());
+        assertEquals("After below", view.getLblResultDesc03().getText().substring(0, 11));
+        assertTrue(view.getLblResultDesc03().getText().indexOf("Jim ended in") > 0);
+    }
+
+    @Test
+    public void reportPositionIfTheRobotSurvivedTest02_Position() {
+        // Arrange
+        JFrame frame = new JFrame();
+        View view = new View();
+        RobotJim robotJim = new RobotJim(0, new Point(3,6));
+        Controller controller = new Controller(frame,view);
+        controller.setRobotJim(robotJim);
+        // Act
+        controller.reportPositionIfTheRobotSurvived();
+        // Assert
+        assertFalse(view.getLblResultDesc03().getText().isEmpty());
+        assertTrue(view.getLblResultDesc03().getText().indexOf("(4,7)") > 0);
+    }
+
+    @Test
+    public void reportPositionIfTheRobotSurvivedTest03_Direction0() {
+        // Arrange
+        JFrame frame = new JFrame();
+        View view = new View();
+        RobotJim robotJim = new RobotJim(0, new Point(3,6));
+        Controller controller = new Controller(frame,view);
+        controller.setRobotJim(robotJim);
+        // Act
+        controller.reportPositionIfTheRobotSurvived();
+        // Assert
+        assertFalse(view.getLblResultDesc03().getText().isEmpty());
+        assertEquals("North", view.getLblResultDesc03().getText()
+                .substring(view.getLblResultDesc03().getText().length() - 5));
+    }
+
+    @Test
+    public void reportPositionIfTheRobotSurvivedTest04_Direction1() {
+        // Arrange
+        JFrame frame = new JFrame();
+        View view = new View();
+        RobotJim robotJim = new RobotJim(1, new Point(3,6));
+        Controller controller = new Controller(frame,view);
+        controller.setRobotJim(robotJim);
+        // Act
+        controller.reportPositionIfTheRobotSurvived();
+        // Assert
+        assertFalse(view.getLblResultDesc03().getText().isEmpty());
+        assertEquals("East", view.getLblResultDesc03().getText()
+                .substring(view.getLblResultDesc03().getText().length() - 4));
+    }
+
+    @Test
+    public void reportPositionIfTheRobotSurvivedTest05_Direction2() {
+        // Arrange
+        JFrame frame = new JFrame();
+        View view = new View();
+        RobotJim robotJim = new RobotJim(2, new Point(3,6));
+        Controller controller = new Controller(frame,view);
+        controller.setRobotJim(robotJim);
+        // Act
+        controller.reportPositionIfTheRobotSurvived();
+        // Assert
+        assertFalse(view.getLblResultDesc03().getText().isEmpty());
+        assertEquals("South", view.getLblResultDesc03().getText()
+                .substring(view.getLblResultDesc03().getText().length() - 5));
+    }
+
+    @Test
+    public void reportPositionIfTheRobotSurvivedTest06_Direction3() {
+        // Arrange
+        JFrame frame = new JFrame();
+        View view = new View();
+        RobotJim robotJim = new RobotJim(3, new Point(3,6));
+        Controller controller = new Controller(frame,view);
+        controller.setRobotJim(robotJim);
+        // Act
+        controller.reportPositionIfTheRobotSurvived();
+        // Assert
+        assertFalse(view.getLblResultDesc03().getText().isEmpty());
+        assertEquals("West", view.getLblResultDesc03().getText()
+                .substring(view.getLblResultDesc03().getText().length() - 4));
+    }
+
+    @Test
+    public void reportPositionIfTheRobotSurvivedTest07_RobotWasDeadAlready() {
+        // Arrange
+        JFrame frame = new JFrame();
+        View view = new View();
+        Controller controller = new Controller(frame,view);
+        view.getLblResultDesc03().setText("TestDescription");
+        // Act
+        controller.reportPositionIfTheRobotSurvived();
+        // Assert
+        assertEquals("TestDescription", view.getLblResultDesc03().getText());
+    }
+
+    @Test
+    public void getAndExecuteProgramTest01_RobotPosition() {
+        // Arrange
+        JFrame frame = new JFrame();
+        View view = new View();
+        RoomOfTheRooms room = new RoomOfTheRooms(10, 20, 2);
+        RobotJim robotJim = new RobotJim(2, new Point(5,10));
+        Controller controller = new Controller(frame,view);
+        controller.setRoom(room);
+        controller.setRobotJim(robotJim);
+        view.getTxtSetProgram().setText("FRRFRLF");
+        // Act
+        controller.getAndExecuteProgram();
+        // Assert
+        assertEquals(5, controller.getRobotJim().getX());
+        assertEquals(9, controller.getRobotJim().getY());
+    }
+
+    @Test
+    public void getAndExecuteProgramTest02_RobotDirection() {
+        // Arrange
+        JFrame frame = new JFrame();
+        View view = new View();
+        RoomOfTheRooms room = new RoomOfTheRooms(10, 20, 2);
+        RobotJim robotJim = new RobotJim(2, new Point(5,10));
+        Controller controller = new Controller(frame,view);
+        controller.setRoom(room);
+        controller.setRobotJim(robotJim);
+        view.getTxtSetProgram().setText("FRRFRLF");
+        // Act
+        controller.getAndExecuteProgram();
+        // Assert
+        assertEquals(0, controller.getRobotJim().getDirection());
+    }
+
+    @Test
+    public void showReportToTheUserTest01() {
+        // Arrange
+        JFrame frame = new JFrame();
+        View view = new View();
+        Controller controller = new Controller(frame,view);
+        // Act
+        controller.showReportToTheUser();
+        // Assert
+        assertEquals(2, view.getTabbedPane().getSelectedIndex());
+    }
 }
